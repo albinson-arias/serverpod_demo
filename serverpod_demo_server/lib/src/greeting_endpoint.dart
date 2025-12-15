@@ -26,7 +26,7 @@ class GreetingEndpoint extends Endpoint {
   /// Returns a personalized greeting message: "Hello {name}".
   Future<Greeting> hello(Session session, String name) async {
     return Greeting(
-      message: 'Hello $name',
+      message: 'Hello from staging: $name',
       author: 'Serverpod',
       timestamp: DateTime.now(),
     );
