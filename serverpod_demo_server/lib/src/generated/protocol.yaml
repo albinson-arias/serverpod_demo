@@ -6,5 +6,7 @@ emailIdp:
   - startPasswordReset:
   - verifyPasswordResetCode:
   - finishPasswordReset:
+refreshJwtTokens:
+  - refreshAccessToken:
 greeting:
   - hello:

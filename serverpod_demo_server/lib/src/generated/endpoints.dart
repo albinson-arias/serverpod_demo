@@ -12,11 +12,12 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
 import '../endpoints/email_idp_endpoint.dart' as _i2;
-import '../greeting_endpoint.dart' as _i3;
+import '../endpoints/jwt_refresh_endpoint.dart' as _i3;
+import '../greeting_endpoint.dart' as _i4;
 import 'package:serverpod_auth_idp_server/serverpod_auth_idp_server.dart'
-    as _i4;
-import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
     as _i5;
+import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
+    as _i6;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -28,7 +29,13 @@ class Endpoints extends _i1.EndpointDispatch {
           'emailIdp',
           null,
         ),
-      'greeting': _i3.GreetingEndpoint()
+      'refreshJwtTokens': _i3.RefreshJwtTokensEndpoint()
+        ..initialize(
+          server,
+          'refreshJwtTokens',
+          null,
+        ),
+      'greeting': _i4.GreetingEndpoint()
         ..initialize(
           server,
           'greeting',
@@ -204,6 +211,33 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
+    connectors['refreshJwtTokens'] = _i1.EndpointConnector(
+      name: 'refreshJwtTokens',
+      endpoint: endpoints['refreshJwtTokens']!,
+      methodConnectors: {
+        'refreshAccessToken': _i1.MethodConnector(
+          name: 'refreshAccessToken',
+          params: {
+            'refreshToken': _i1.ParameterDescription(
+              name: 'refreshToken',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['refreshJwtTokens']
+                          as _i3.RefreshJwtTokensEndpoint)
+                      .refreshAccessToken(
+                        session,
+                        refreshToken: params['refreshToken'],
+                      ),
+        ),
+      },
+    );
     connectors['greeting'] = _i1.EndpointConnector(
       name: 'greeting',
       endpoint: endpoints['greeting']!,
@@ -221,16 +255,16 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['greeting'] as _i3.GreetingEndpoint).hello(
+              ) async => (endpoints['greeting'] as _i4.GreetingEndpoint).hello(
                 session,
                 params['name'],
               ),
         ),
       },
     );
-    modules['serverpod_auth_idp'] = _i4.Endpoints()
+    modules['serverpod_auth_idp'] = _i5.Endpoints()
       ..initializeEndpoints(server);
-    modules['serverpod_auth_core'] = _i5.Endpoints()
+    modules['serverpod_auth_core'] = _i6.Endpoints()
       ..initializeEndpoints(server);
   }
 }
