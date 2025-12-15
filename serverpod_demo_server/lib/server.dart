@@ -52,6 +52,7 @@ void _sendRegistrationCode(
   // NOTE: Here you call your mail service to send the verification code to
   // the user. For testing, we will just log the verification code.
   session.log('[EmailIdp] Registration code ($email): $verificationCode');
+  print('[EmailIdp] Registration code ($email): $verificationCode');
 }
 
 void _sendPasswordResetCode(
@@ -64,4 +65,5 @@ void _sendPasswordResetCode(
   // NOTE: Here you call your mail service to send the verification code to
   // the user. For testing, we will just log the verification code.
   session.log('[EmailIdp] Password reset code ($email): $verificationCode');
+  print('[EmailIdp] Password reset code ($email): $verificationCode');
 }
